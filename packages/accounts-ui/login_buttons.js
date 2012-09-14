@@ -11,6 +11,7 @@
   var RESET_PASSWORD_TOKEN_KEY = 'Meteor.loginButtons.resetPasswordToken';
   var ENROLL_ACCOUNT_TOKEN_KEY = 'Meteor.loginButtons.enrollAccountToken';
   var JUST_VALIDATED_USER_KEY = 'Meteor.loginButtons.justValidatedUser';
+  var CONFIGURE_LOGIN_SERVICES_DIALOG_VISIBLE = 'Meteor.loginButtons.configureLoginServicesDialogVisible';
 
   var resetSession = function () {
     Session.set(IN_SIGNUP_FLOW_KEY, false);
@@ -34,10 +35,9 @@
       try {
         Meteor.loginWithFacebook();
       } catch (e) {
+        // xcxc don't need to try and catch.
         if (e instanceof Meteor.accounts.ConfigError)
-          alert("Facebook API key not set. Configure app details with "
-                + "Meteor.accounts.facebook.config() "
-                + "and Meteor.accounts.facebook.setSecret()");
+          Session.set(CONFIGURE_LOGIN_SERVICES_DIALOG_VISIBLE, true);
         else
           throw e;
       }
@@ -260,6 +260,10 @@
       || !Meteor.accounts._options.requireUsername;
   };
 
+  Template.loginButtonsServicesRow.configured = function () {
+    return Meteor.accounts.configuration.findOne({service: this.name.toLowerCase()});
+  };
+
 
   //
   // loginButtonsMessage template
@@ -329,13 +333,12 @@
     },
     'click .login-close-text': function () {
       resetSession();
-    }
+   }
   };
 
   Template.loginButtonsServicesDropdown.dropdownVisible = function () {
     return Session.get(DROPDOWN_VISIBLE_KEY);
   };
-
 
   //
   // resetPasswordForm template
@@ -455,6 +458,35 @@
       });
     }
   });
+
+  //
+  // configureLoginServicesDialog template
+  //
+
+  // also used in provider packages, for their configuration forms
+  Meteor.accounts._dismissConfigureLoginServices = function () {
+    Session.set(CONFIGURE_LOGIN_SERVICES_DIALOG_VISIBLE, false);
+  };
+
+  Template.configureLoginServicesDialog.events = {
+    'click #configure-login-services-dismiss-button': function () {
+      Meteor.accounts._dismissConfigureLoginServices();
+    }
+  };
+
+  Template.configureLoginServicesDialog.visible = function () {
+    return Session.get(CONFIGURE_LOGIN_SERVICES_DIALOG_VISIBLE);
+  };
+
+  Template.configureLoginServicesDialog.configurationSteps = function () {
+    // xcxc is there a better way to do this?
+    var fragment = Meteor.render(
+      Template.configureLoginServicesDialogForFacebook); // xcxc name
+    var dummyDiv = document.createElement('div');
+    dummyDiv.appendChild(fragment);
+    return dummyDiv.innerHTML;
+  };
+
 
   //
   // helpers

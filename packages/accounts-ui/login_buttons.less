@@ -41,6 +41,11 @@
     -o-border-radius: 3px;
 }
 
+#login-buttons .configure-button {
+    background: red; /* xcxc*/
+    /* xcxc make this better */
+}
+
 #login-buttons .login-link-text {
     margin-left: 5px; /* so that other elements aren't too close */
 }
@@ -177,7 +182,8 @@
     float: left;
 }
 
-#enroll-account-form, #reset-password-form, #just-validated-user-form {
+/* xcxc change this into a class */
+#enroll-account-form, #reset-password-form, #just-validated-user-form, #configure-login-services-dialog {
     z-index: 1000;
     position: fixed;
 
@@ -187,6 +193,18 @@
 
     top: 50%;
     margin-top: -40px; /* = approximately -height/2, though height can change */
+}
+
+@configure-login-services-dialog-width: 530px;
+#configure-login-services-dialog {
+    width: @configure-login-services-dialog-width;
+    margin-left: -(@configure-login-services-dialog-width
+                 + @login-buttons-accounts-dialog-padding-left) / 2;
+    margin-top: -150px; /* = approximately -height/2, though height can change */
+}
+
+#configure-login-services-dialog .login-button-configure {
+    float: right;
 }
 
 #just-validated-dismiss-button {

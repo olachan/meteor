@@ -65,10 +65,17 @@
       </div>
       {{/if}}
     {{else}}
-      <div class="login-button" id="login-buttons-{{name}}">
-        <div class="login-image" id="login-buttons-image-{{name}}"></div>
-        Sign in with {{name}}
-      </div>
+      {{#if configured}}
+        <div class="login-button" id="login-buttons-{{name}}">
+          <div class="login-image" id="login-buttons-image-{{name}}"></div>
+          Sign in with {{name}}
+        </div>
+      {{else}}
+        <div class="login-button configure-button" id="login-buttons-{{name}}">
+          <div class="login-image" id="login-buttons-image-{{name}}"></div>
+          Configure {{name}} Login
+        </div>
+      {{/if}}
     {{/if}}
   {{/each}}
 </template>
@@ -176,8 +183,17 @@
   {{/if}}
 </template>
 
+<template name="configureLoginServicesDialog">
+  {{#if visible}}
+  <div id="configure-login-services-dialog" class="accounts-dialog">
+    {{> configureLoginServicesDialogForFacebook}} <!-- xcxc how do we do this dynamically? -->
+  </div>
+  {{/if}}
+</template>
+
 <body>
   {{> resetPasswordForm}}
   {{> enrollAccountForm}}
   {{> justValidatedUserForm}}
+  {{> configureLoginServicesDialog}}
 </body>

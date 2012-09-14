@@ -6,6 +6,9 @@ Package.on_use(function(api) {
   api.use('accounts-base', ['client', 'server']);
   api.use('accounts-oauth2-helper', ['client', 'server']);
   api.use('http', ['client', 'server']);
+  api.use('templating', 'client');
+
+  api.add_files(['configure.html', 'configure.js', 'configure.css'], 'client');
 
   api.add_files('facebook_common.js', ['client', 'server']);
   api.add_files('facebook_server.js', 'server');

@@ -221,7 +221,7 @@
 
 
   ///
-  /// PUBLISHING USER OBJECTS
+  /// PUBLISHING DATA
   ///
 
   // Always publish the current user's record to the client.
@@ -231,7 +231,7 @@
                                {fields: {services: 0, private: 0}});
     else
       return null;
-  }, {is_auto: true});
+  });
 
   // If autopublish is on, also publish everyone else's user record.
   Meteor.default_server.onAutopublish(function () {
@@ -241,5 +241,17 @@
     };
     Meteor.default_server.publish(null, handler, {is_auto: true});
   });
+
+  Meteor.publish(null, function () {
+    return Meteor.accounts.configuration.find({}, {fields: {secret: 0}});
+  });
+
+  Meteor.methods({
+    "Meteor.accounts.configure": function(options) {
+      // xcxc make better
+      Meteor.accounts.configuration.insert(options);
+    }
+  });
+
 }) ();
 

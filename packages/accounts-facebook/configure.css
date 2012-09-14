@@ -1,0 +1,23 @@
+#configure-login-services-dialog-for-facebook .url {
+  font-family: "Courier New", Courier, monospace;
+}
+
+#configure-login-services-dialog-for-facebook ol li {
+    margin-left: 30px;
+}
+
+#configure-login-services-dialog-for-facebook table {
+    width: 75%;
+}
+
+#configure-login-services-dialog-for-facebook .labels {
+    width: 20%;
+}
+
+#configure-login-services-dialog-for-facebook .inputs {
+    width: 80%;
+}
+
+#configure-login-services-dialog-for-facebook input {
+    width: 100%;
+}
