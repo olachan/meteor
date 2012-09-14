@@ -11,10 +11,12 @@
       <div class="login-button" id="login-buttons-logout">Logout</div>
     {{else}}
       {{#if services}}
-        {{#if dropdown}}
-          {{> loginButtonsServicesDropdown}}
-        {{else}}
-          {{> loginButtonsServicesRow}}
+        {{#if configurationLoaded}}
+          {{#if dropdown}}
+            {{> loginButtonsServicesDropdown}}
+          {{else}}
+            {{> loginButtonsServicesRow}}
+          {{/if}}
         {{/if}}
       {{else}}
         <div class="no-services">No login services configured.</div>
@@ -186,7 +188,7 @@
 <template name="configureLoginServicesDialog">
   {{#if visible}}
   <div id="configure-login-services-dialog" class="accounts-dialog">
-    {{> configureLoginServicesDialogForFacebook}} <!-- xcxc how do we do this dynamically? -->
+    {{{configurationSteps}}}
   </div>
   {{/if}}
 </template>

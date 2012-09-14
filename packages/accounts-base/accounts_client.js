@@ -35,4 +35,14 @@
       return Meteor.user();
     });
   }
+
+  var ACCOUNTS_CONFIGURED_KEY = "Meteor.accounts.configured";
+
+  Meteor.subscribe("Meteor.accounts.configuration", function () {
+    Session.set(ACCOUNTS_CONFIGURED_KEY, true);
+  });
+
+  Meteor.accounts.configured = function () {
+    return Session.get(ACCOUNTS_CONFIGURED_KEY);
+  };
 })();

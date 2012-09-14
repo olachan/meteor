@@ -12,6 +12,7 @@
   var ENROLL_ACCOUNT_TOKEN_KEY = 'Meteor.loginButtons.enrollAccountToken';
   var JUST_VALIDATED_USER_KEY = 'Meteor.loginButtons.justValidatedUser';
   var CONFIGURE_LOGIN_SERVICES_DIALOG_VISIBLE = 'Meteor.loginButtons.configureLoginServicesDialogVisible';
+  var CONFIGURE_LOGIN_SERVICES_DIALOG_SERVICE_NAME = "Meteor.loginButtons.configureLoginServicesDialogServiceName";
 
   var resetSession = function () {
     Session.set(IN_SIGNUP_FLOW_KEY, false);
@@ -35,10 +36,12 @@
       try {
         Meteor.loginWithFacebook();
       } catch (e) {
-        // xcxc don't need to try and catch.
-        if (e instanceof Meteor.accounts.ConfigError)
+        // XXX consider doing this differently so that we don't use exceptions
+        // for flow control
+        if (e instanceof Meteor.accounts.ConfigError) {
           Session.set(CONFIGURE_LOGIN_SERVICES_DIALOG_VISIBLE, true);
-        else
+          Session.set(CONFIGURE_LOGIN_SERVICES_DIALOG_SERVICE_NAME, "Facebook");
+        } else
           throw e;
       }
     },
@@ -97,11 +100,15 @@
       return service.name === 'Password';
     });
 
-    return hasPasswordService || services.length > 2;
+    return hasPasswordService || services.length > 1;
   };
 
   Template.loginButtons.services = function () {
     return getLoginServices();
+  };
+
+  Template.loginButtons.configurationLoaded = function () {
+    return Meteor.accounts.configured();
   };
 
   Template.loginButtons.displayName = function () {
@@ -479,12 +486,8 @@
   };
 
   Template.configureLoginServicesDialog.configurationSteps = function () {
-    // xcxc is there a better way to do this?
-    var fragment = Meteor.render(
-      Template.configureLoginServicesDialogForFacebook); // xcxc name
-    var dummyDiv = document.createElement('div');
-    dummyDiv.appendChild(fragment);
-    return dummyDiv.innerHTML;
+    var serviceName = Session.get(CONFIGURE_LOGIN_SERVICES_DIALOG_SERVICE_NAME);
+    return Template['configureLoginServicesDialogFor' + serviceName]();
   };
 
 

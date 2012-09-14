@@ -15,7 +15,7 @@
     margin-left: 4px;
 }
 
-@login-buttons-accounts-dialog-width: 158px;
+@login-buttons-accounts-dialog-width: 178px;
 
 #login-buttons .login-button, .accounts-dialog .login-button {
     float: left;
@@ -51,7 +51,7 @@
 }
 
 .accounts-dialog .login-button {
-    width: 158px;
+    width: @login-buttons-accounts-dialog-width;
     margin-bottom: 4px;
 }
 
@@ -111,7 +111,7 @@
     padding-left: @login-buttons-accounts-dialog-padding-left;
     padding-bottom: 8px;
 
-    width: 167px;
+    width: @login-buttons-accounts-dialog-width + 9; /* not sure what this 9 is */
 }
 
 #login-dropdown-list {
@@ -142,7 +142,7 @@
 }
 
 .accounts-dialog input {
-    width: 162px;
+    width: @login-buttons-accounts-dialog-width + 4;
 }
 
 .accounts-dialog .login-button-form-submit {

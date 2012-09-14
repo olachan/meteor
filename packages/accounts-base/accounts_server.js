@@ -242,14 +242,16 @@
     Meteor.default_server.publish(null, handler, {is_auto: true});
   });
 
-  Meteor.publish(null, function () {
+  Meteor.publish("Meteor.accounts.configuration", function () {
     return Meteor.accounts.configuration.find({}, {fields: {secret: 0}});
   });
 
   Meteor.methods({
     "Meteor.accounts.configure": function(options) {
-      // xcxc make better
-      Meteor.accounts.configuration.insert(options);
+      if (!Meteor.accounts.configuration.findOne({service: options.service}))
+        Meteor.accounts.configuration.insert(options);
+      else
+        throw new Error("Service " + options.service + " already configured");
     }
   });
 

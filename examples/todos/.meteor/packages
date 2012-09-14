@@ -7,8 +7,6 @@ underscore
 backbone
 spiderable
 accounts-ui
-accounts-weibo
-accounts-google
 accounts-facebook
+accounts-google
 accounts-password
-accounts-twitter
