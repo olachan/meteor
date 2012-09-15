@@ -41,8 +41,9 @@
         if (e instanceof Meteor.accounts.ConfigError) {
           Session.set(CONFIGURE_LOGIN_SERVICES_DIALOG_VISIBLE, true);
           Session.set(CONFIGURE_LOGIN_SERVICES_DIALOG_SERVICE_NAME, "Facebook");
-        } else
+        } else {
           throw e;
+        }
       }
     },
 
@@ -50,12 +51,12 @@
       try {
         Meteor.loginWithGoogle();
       } catch (e) {
-        if (e instanceof Meteor.accounts.ConfigError)
-          alert("Google API key not set. Configure app details with "
-                + "Meteor.accounts.google.config() and "
-                + "Meteor.accounts.google.setSecret()");
-        else
+        if (e instanceof Meteor.accounts.ConfigError) {
+          Session.set(CONFIGURE_LOGIN_SERVICES_DIALOG_VISIBLE, true);
+          Session.set(CONFIGURE_LOGIN_SERVICES_DIALOG_SERVICE_NAME, "Google");
+        } else {
           throw e;
+        }
       };
     },
 

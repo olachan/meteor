@@ -2,4 +2,6 @@ if (!Meteor.accounts.facebook) {
   Meteor.accounts.facebook = {};
 }
 
-// xcxc how do you configure scope?
+Meteor.accounts.facebook.config = function(options) {
+  Meteor.accounts.facebook._options = options;
+};
